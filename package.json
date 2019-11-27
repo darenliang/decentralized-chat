@@ -1,0 +1,23 @@
+{
+  "name": "secure-chat",
+  "version": "1.0.0",
+  "description": "Secure decentralized chat",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/darenliang/secure-chat.git"
+  },
+  "author": "Daren Liang",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/darenliang/secure-chat/issues"
+  },
+  "homepage": "https://github.com/darenliang/secure-chat#readme",
+  "devDependencies": {
+    "electron": "^7.1.2"
+  }
+}
