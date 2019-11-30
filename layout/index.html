@@ -7,44 +7,20 @@
 <body>
 <div class="box">
     <div class="row message">
+        <label for="destination">
+            <input type="text" id="destination" name="DestinationID" onkeydown="setDestination(this)">
+        </label>
+        <span id="uid"></span><br><br>
         <label for="message">
             <input type="text" id="message" name="ChatMessage">
         </label>
     </div>
     <div class="row content">
-        <ul>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
-            <li>Coffee</li>
-            <li>Tea</li>
-            <li>Milk</li>
+        <ul id="messages">
         </ul>
     </div>
 </div>
+<script src="../peerjs-1.0.0/peerjs.min.js"></script>
+<script src="js/peer.js"></script>
 </body>
 </html>
