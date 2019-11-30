@@ -5,23 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Secure P2P Chat</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <a class="navbar-brand">Secure P2P Chat</a>
+    <a id="status" class="nav-link">Not Connected <i id="status-icon" class="fas fa-circle fa-xs red-color"></i></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+        </ul>
         <br>
         <div class="input-group col-lg-3">
             <div class="input-group-prepend">
                 <span class="input-group-text">Client ID:</span>
             </div>
-            <input id="uid" type="text" class="form-control" readonly>
+            <input id="uid" type="text" class="form-control" placeholder="Please wait" readonly>
         </div>
         <br>
         <div class="input-group col-lg-4">
@@ -37,39 +40,16 @@
     </div>
 </nav>
 <div class="container">
-    <div class="row messageBox">
-        <div class="col-auto">
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
-            <p><span class="time">12:00:00 </span><span class="self">Self: </span><span>derp</span></p>
+    <div id="messageContainer" class="row messageBox">
+        <div id="messageBox" class="col-auto">
+        </div>
+    </div>
+    <div class="row">
+        <div class="input-group col-auto">
+            <input id="messageText" type="text" class="form-control">
+            <div class="input-group-append">
+                <button id="messageSend" type="button" class="btn btn-outline-secondary">Send</button>
+            </div>
         </div>
     </div>
 </div>
@@ -77,6 +57,7 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/peerjs@1.1.0/dist/peerjs.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js"></script>
-<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/js/fontawesome.min.js"></script>
+<script src="js/script.js"></script>
 </body>
 </html>
