@@ -1,0 +1,12 @@
+.messageBox {
+    height: 400px;
+    overflow: auto;
+}
+
+.time {
+    color: blue;
+}
+
+.self {
+    color: red;
+}
