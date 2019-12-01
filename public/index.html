@@ -20,11 +20,14 @@
         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
         </ul>
         <br>
-        <div class="input-group col-lg-3">
+        <div class="input-group col-lg-4">
             <div class="input-group-prepend">
                 <span class="input-group-text">Client ID:</span>
             </div>
             <input id="uid" type="text" class="form-control" placeholder="Please wait" readonly>
+            <div class="input-group-append">
+                <button id="reconnectButton" type="button" class="btn btn-outline-secondary">Refresh</button>
+            </div>
         </div>
         <br>
         <div class="input-group col-lg-4">
@@ -40,15 +43,19 @@
     </div>
 </nav>
 <div class="container">
+    <div class="col-xs-12" style="height:50px;"></div>
     <div id="messageContainer" class="row messageBox">
-        <div id="messageBox" class="col-auto">
+        <div id="messageBox" class="mx-auto col-md-8">
         </div>
     </div>
+    <div class="col-xs-12" style="height:50px;"></div>
     <div class="row">
-        <div class="input-group col-auto">
-            <input id="messageText" type="text" class="form-control">
-            <div class="input-group-append">
-                <button id="messageSend" type="button" class="btn btn-outline-secondary">Send</button>
+        <div class="mx-auto col-md-8">
+            <div class="input-group col-auto">
+                <input id="messageText" type="text" class="form-control">
+                <div class="input-group-append">
+                    <button id="messageSend" type="button" class="btn btn-outline-secondary">Send</button>
+                </div>
             </div>
         </div>
     </div>

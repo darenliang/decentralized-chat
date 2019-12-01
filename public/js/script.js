@@ -3,10 +3,16 @@ $(document).ready(function () {
     let lpeer = null;
     let conn = null;
 
+    // Set status
     function setStatus(status, oldColor, newColor) {
         $('#status').val = status;
         $('#status-icon').removeClass(oldColor).addClass(newColor);
     }
+
+    // Reconnect button
+    $('#reconnectButton').click(function () {
+        initialize()
+    });
 
 
     /**
@@ -18,6 +24,8 @@ $(document).ready(function () {
 
         // On Peer open
         peer.on('open', function (_) {
+            $('#rid').val("");
+            setStatus('Not connected', 'green-color', 'red-color');
 
             // Detect if Peer id is defined
             if (peer.id === null) {
@@ -123,13 +131,10 @@ $(document).ready(function () {
         }
     });
 
-// Send message
+    // Send message
     $('#messageSend').click(function () {
-        if (conn.open) {
-            const msg = $('#messageText').val();
-            conn.send(msg);
-            addMessage(msg);
-        }
+        const msg = $('#messageText').val();
+        addMessage(msg);
     });
 
     initialize();
