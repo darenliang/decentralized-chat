@@ -5,8 +5,38 @@ $(document).ready(function () {
 
     // Set status
     function setStatus(status, oldColor, newColor) {
-        $('#status').val = status;
+        $('#status').text(status);
         $('#status-icon').removeClass(oldColor).addClass(newColor);
+    }
+
+    function setConnected() {
+        setStatus('Connected', 'red-color', 'green-color')
+    }
+
+    function setDisconnected() {
+        setStatus('Not Connected', 'green-color', 'red-color')
+    }
+
+    // Get timestamp
+    function getTimestamp() {
+        function addZero(t) {
+            if (t < 10)
+                t = '0' + t;
+            return t;
+        }
+
+        const now = new Date();
+        let h = now.getHours();
+        const m = addZero(now.getMinutes());
+        const s = addZero(now.getSeconds());
+
+        if (h > 12) {
+            h -= 12;
+        } else if (h === 0) {
+            h = 12;
+        }
+
+        return h + ':' + m + ':' + s;
     }
 
     // Reconnect button
@@ -25,7 +55,7 @@ $(document).ready(function () {
         // On Peer open
         peer.on('open', function (_) {
             $('#rid').val("");
-            setStatus('Not connected', 'green-color', 'red-color');
+            setDisconnected();
 
             // Detect if Peer id is defined
             if (peer.id === null) {
@@ -56,17 +86,33 @@ $(document).ready(function () {
             conn = c;
 
             // Change status
-            setStatus('Connected', 'red-color', 'green-color');
+            setConnected();
             $('#rid').val(conn.peer);
 
             // Get connection ready
             ready();
         });
 
+        $('#rid-button').click(function () {
+            if (conn) {
+                conn.close();
+            }
+
+            conn = peer.connect($('#rid').val(), {
+                reliable: true
+            });
+
+            if (conn) {
+                setConnected();
+            }
+
+            ready();
+        });
+
         // On Peer disconnection
         peer.on('disconnected', function () {
             // Change status
-            setStatus('Not Connected', 'green-color', 'red-color');
+            setDisconnected();
 
             // Attempt to reconnect
             peer.id = lpeer;
@@ -91,7 +137,11 @@ $(document).ready(function () {
      */
     function ready() {
         conn.on('data', function (data) {
-            addMessage(data);
+            switch (data.type) {
+                case 'msg':
+                    addMessage('Peer', data.content);
+                    break;
+            }
         });
 
         conn.on('close', function () {
@@ -100,28 +150,21 @@ $(document).ready(function () {
         });
     }
 
-    function addMessage(msg) {
-        const now = new Date();
-        let h = now.getHours();
-        const m = addZero(now.getMinutes());
-        const s = addZero(now.getSeconds());
-
-        if (h > 12)
-            h -= 12;
-        else if (h === 0)
-            h = 12;
-
-        function addZero(t) {
-            if (t < 10)
-                t = '0' + t;
-            return t;
+    function addMessage(author, msg) {
+        let authorSpan = "";
+        switch (author) {
+            case 'Peer':
+                authorSpan = '<span class=\"red-color\"> - Peer : </span>';
+                break;
+            case 'Self':
+                authorSpan = '<span class=\"green-color\"> - Self : </span>';
+                break;
         }
 
-        $('#messageBox').append('<p><span class=\"blue-color\">' + h + ':' + m + ':' + s + '</span><span class=\"green-color\"> Self: </span><span>' + msg + '</span></p>');
-
+        $('#messageBox').append('<p><span class=\"blue-color\">' + getTimestamp() + '</span>' + authorSpan + '<span>' + msg + '</span></p>');
         $('#messageContainer').animate({
             scrollTop: $('#messageContainer').prop("scrollHeight")
-        });
+        }, 0);
     }
 
     $('#messageText').keypress(function (e) {
@@ -134,7 +177,18 @@ $(document).ready(function () {
     // Send message
     $('#messageSend').click(function () {
         const msg = $('#messageText').val();
-        addMessage(msg);
+        if (msg === "") {
+            return;
+        }
+
+        let data = {type: 'msg', content: msg};
+
+        if (conn.open) {
+            conn.send(data);
+            addMessage('Self', msg);
+        }
+
+        $('#messageText').val("");
     });
 
     initialize();
