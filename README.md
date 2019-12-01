@@ -4,11 +4,13 @@ Work in progress. Purely static web app, for P2P communication.
 
 Currently, it uses the following libraries:
 
-- PeerJS (WebRTC wrapper)
-- localForage
-- Bootstrap
-- Font Awesome
-- jQuery
+- [PeerJS](https://peerjs.com) (WebRTC wrapper)
+- [localForage](https://localforage.github.io/localForage/)
+- [Bootstrap](https://getbootstrap.com)
+- [Font Awesome](https://fontawesome.com)
+- [jQuery](https://jquery.com)
+
+All libraries are hosted on [jsDelivr](https://www.jsdelivr.com)
 
 ## Todo
 
