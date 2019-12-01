@@ -1,4 +1,4 @@
-# WebRTC Web Chat
+# Decentralized Web Chat
 
 Work in progress. Purely static web app, for P2P communication.
 
