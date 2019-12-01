@@ -44,7 +44,7 @@ $(document).ready(function () {
             // Allow only a single connection for now
             if (conn) {
                 c.on('open', function () {
-                    c.send('Already connected to another client');
+                    alert('Already connected to another client');
                     setTimeout(function () {
                         c.close();
                     }, 500);
