@@ -4,7 +4,6 @@ This markdown file defines how the content is stored locally in the browser. Thi
 
 ```javascript
 let message = {
-    id: "001",
     type: "msg",
     timestamp: Date(),
     content: "Hello World!"
@@ -12,13 +11,11 @@ let message = {
 ```
 
 ```javascript
-let room = {
-    messages: [message, message, message, ...]
-}
-```
+// id are generated using Date.now() + Math.random()
 
-```javascript
-let database = {
-    rooms: [rooms, rooms, rooms, ...]
+let room = {
+    1234567890: message,
+    2345678901: message,
+    ...
 }
 ```
