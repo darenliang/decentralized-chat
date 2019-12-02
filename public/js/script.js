@@ -94,21 +94,6 @@ $(document).ready(function () {
             ready();
         });
 
-        // Connect via RID
-        $('#rid-button').click(function () {
-            // Close current connection
-            if (conn) {
-                conn.close();
-            }
-
-            // Connect to RID
-            conn = peer.connect($('#rid').val(), {
-                reliable: true
-            });
-
-            ready();
-        });
-
         // On Peer disconnection
         peer.on('disconnected', function () {
             // Change status
@@ -136,6 +121,7 @@ $(document).ready(function () {
             }
         });
     }
+
 
     // Call when Peer connection is established
     function ready() {
@@ -176,6 +162,30 @@ $(document).ready(function () {
             scrollTop: $('#messageContainer').prop("scrollHeight")
         }, 0);
     }
+
+    // Click button from enter key press on text box
+    $('#rid').keypress(function (e) {
+        if (e.which === 13) {
+            $("#rid-button").click();
+            return false;
+        }
+    });
+
+
+    // Connect via RID
+    $('#rid-button').click(function () {
+        // Close current connection
+        if (conn) {
+            conn.close();
+        }
+
+        // Connect to RID
+        conn = peer.connect($('#rid').val(), {
+            reliable: true
+        });
+
+        ready();
+    });
 
     // Click button from enter key press on text box
     $('#messageText').keypress(function (e) {
