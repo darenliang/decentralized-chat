@@ -1,11 +1,18 @@
+import Peer from 'peerjs';
+import $ from 'jquery';
+
+function createMessage(author: string, content: string) {
+    return {author: author, timestamp: new Date().getTime(), content: content}
+}
+
 // On document load
 $(document).ready(function () {
-    let peer = null;
-    let lpeer = null;
-    let conn = null;
+    let peer: Peer = null;
+    let last_peer: string = null;
+    let conn: Peer.DataConnection = null;
 
     // Set status
-    function setStatus(status, newColor) {
+    function setStatus(status: string, newColor: string) {
         $('#status').text(status);
         const colors = ['green', 'yellow', 'red'];
         colors.forEach(function (item) {
@@ -18,25 +25,30 @@ $(document).ready(function () {
     }
 
     // Get timestamp
-    function getTimestamp() {
-        function addZero(t) {
-            if (t < 10)
-                t = '0' + t;
-            return t;
+    function getTimestamp(ms: number) {
+        function addZero(t: number) {
+            let res: string = null;
+            if (t < 10) {
+                res = '0' + t;
+            } else {
+                res = t.toString();
+            }
+            return res;
         }
 
-        const now = new Date();
-        let h = now.getHours();
-        const m = addZero(now.getMinutes());
-        const s = addZero(now.getSeconds());
+        const parsed_date = new Date(ms);
+        const h: number = parsed_date.getHours();
+        const m: number = parsed_date.getMinutes();
+        const s: number = parsed_date.getSeconds();
 
+        let h_res: string = null;
         if (h > 12) {
-            h -= 12;
+            h_res = (h - 12).toString();
         } else if (h === 0) {
-            h = 12;
+            h_res = (12).toString();
         }
 
-        return h + ':' + m + ':' + s;
+        return h_res + ':' + addZero(m) + ':' + addZero(s);
     }
 
     // Reconnect button
@@ -51,13 +63,13 @@ $(document).ready(function () {
         peer = new Peer(null);
 
         // On Peer open
-        peer.on('open', function (_) {
+        peer.on('open', function (_: string) {
             // Detect if Peer id is defined
             if (peer.id === null) {
                 console.log('Received null id from Peer connection');
-                peer.id = lpeer;
+                peer.id = last_peer;
             } else {
-                lpeer = peer.id;
+                last_peer = peer.id;
             }
 
             // Display Peer id
@@ -65,7 +77,7 @@ $(document).ready(function () {
         });
 
         // On Peer connection
-        peer.on('connection', function (c) {
+        peer.on('connection', function (c: Peer.DataConnection) {
             // Allow only a single connection for now
             if (conn) {
                 c.on('open', function () {
@@ -90,7 +102,7 @@ $(document).ready(function () {
             setStatus('Disconnected', 'yellow');
 
             // Attempt to reconnect
-            peer.id = lpeer;
+            peer.id = last_peer;
             peer.reconnect();
         });
 
@@ -100,7 +112,7 @@ $(document).ready(function () {
             setStatus('Client closed (Please refresh)', 'red');
         });
 
-        peer.on('error', function (err) {
+        peer.on('error', function (err: any) {
             console.log(err);
             alert('' + err);
 
@@ -121,12 +133,9 @@ $(document).ready(function () {
             $('#rid').val(conn.peer);
         });
 
-        conn.on('data', function (data) {
-            switch (data.type) {
-                case 'msg':
-                    addMessage('Peer', data.content);
-                    break;
-            }
+        conn.on('data', function (msg: any) {
+            // TODO: Properly handle different types of objects
+            addMessage(msg);
         });
 
         conn.on('close', function () {
@@ -136,18 +145,18 @@ $(document).ready(function () {
     }
 
     // Add message to html
-    function addMessage(author, msg) {
+    function addMessage(msg: any) {
         let authorSpan = "";
-        switch (author) {
-            case 'Peer':
-                authorSpan = '<span class=\"red-color\"> - Peer : </span>';
+        switch (msg.author) {
+            case peer.id:
+                authorSpan = '<span class=\"red-color\"> - ' + msg.author + ' : </span>';
                 break;
-            case 'Self':
-                authorSpan = '<span class=\"green-color\"> - Self : </span>';
+            default:
+                authorSpan = '<span class=\"green-color\"> - ' + msg.author + ' : </span>';
                 break;
         }
 
-        $('#messageBox').append('<p><span class=\"blue-color\">' + getTimestamp() + '</span>' + authorSpan + '<span>' + msg + '</span></p>');
+        $('#messageBox').append('<p><span class=\"blue-color\">' + getTimestamp(msg.timestamp) + '</span>' + authorSpan + '<span>' + msg.content + '</span></p>');
         $('#messageContainer').animate({
             scrollTop: $('#messageContainer').prop("scrollHeight")
         }, 0);
@@ -170,7 +179,7 @@ $(document).ready(function () {
         }
 
         // Connect to RID
-        conn = peer.connect($('#rid').val(), {
+        conn = peer.connect($('#rid').val().toString(), {
             reliable: true
         });
 
@@ -187,16 +196,16 @@ $(document).ready(function () {
 
     // Send message
     $('#messageSend').click(function () {
-        const msg = $('#messageText').val();
-        if (msg === "") {
+        const text = $('#messageText').val().toString();
+        if (text === "") {
             return;
         }
 
-        let data = {type: 'msg', content: msg};
+        let msg: object = createMessage(peer.id, text);
 
         if (conn.open) {
-            conn.send(data);
-            addMessage('Self', msg);
+            conn.send(msg);
+            addMessage(msg);
         }
 
         $('#messageText').val("");
