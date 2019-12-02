@@ -18,6 +18,7 @@ All libraries are hosted on [jsDelivr](https://www.jsdelivr.com)
 
 - [x] Draft UI
 - [x] Initial prototype
+- [x] Migrate to TypeScript
 - [ ] Proper error handling
 - [ ] Backup messages to local storage
 - [ ] Sync messages from local storage
