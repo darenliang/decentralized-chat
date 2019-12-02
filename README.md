@@ -2,7 +2,7 @@
 
 Work in progress. Purely static web app, for P2P communication.
 
-[Limited functionality demo](https://darenliang.github.io/decentralized-chat/public/index)
+[Limited functionality demo](https://darenliang.github.io/decentralized-chat/dist/index)
 
 Currently, it uses the following libraries:
 
