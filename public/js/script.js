@@ -7,24 +7,14 @@ $(document).ready(function () {
     // Set status
     function setStatus(status, newColor) {
         $('#status').text(status);
-        var colors = ['green', 'yellow', 'red'];
-        colors.forEach(function (item, _, _) {
-            if (newColor == item) {
+        const colors = ['green', 'yellow', 'red'];
+        colors.forEach(function (item) {
+            if (newColor === item) {
                 $('#status-icon').addClass(item + '-color')
             } else {
                 $('#status-icon').removeClass(item + '-color')
             }
         });
-    }
-
-    // Set status connecte
-    function setConnected() {
-        setStatus('Connected', 'green')
-    }
-
-    // Set status disconnected
-    function setDisconnected() {
-        setStatus('Not Connected', 'red')
     }
 
     // Get timestamp
@@ -129,7 +119,7 @@ $(document).ready(function () {
             // Change status and set RID
             setStatus('Connected', 'green');
             $('#rid').val(conn.peer);
-        })
+        });
 
         conn.on('data', function (data) {
             switch (data.type) {
