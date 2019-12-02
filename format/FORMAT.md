@@ -4,9 +4,9 @@ This markdown file defines how the content is stored locally in the browser. Thi
 
 ```javascript
 let message = {
-    type: "msg",
+    author: string,
     timestamp: Date(),
-    content: "Hello World!"
+    content: string,
 }
 ```
 
