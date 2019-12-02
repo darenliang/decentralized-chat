@@ -1,20 +1,30 @@
+// On document load
 $(document).ready(function () {
     let peer = null;
     let lpeer = null;
     let conn = null;
 
     // Set status
-    function setStatus(status, oldColor, newColor) {
+    function setStatus(status, newColor) {
         $('#status').text(status);
-        $('#status-icon').removeClass(oldColor).addClass(newColor);
+        var colors = ['green', 'yellow', 'red'];
+        colors.forEach(function (item, _, _) {
+            if (newColor == item) {
+                $('#status-icon').addClass(item + '-color')
+            } else {
+                $('#status-icon').removeClass(item + '-color')
+            }
+        });
     }
 
+    // Set status connecte
     function setConnected() {
-        setStatus('Connected', 'red-color', 'green-color')
+        setStatus('Connected', 'green')
     }
 
+    // Set status disconnected
     function setDisconnected() {
-        setStatus('Not Connected', 'green-color', 'red-color')
+        setStatus('Not Connected', 'red')
     }
 
     // Get timestamp
@@ -45,18 +55,13 @@ $(document).ready(function () {
     });
 
 
-    /**
-     * Setup Peer connection
-     */
+    // Setup Peer connection
     function initialize() {
         // Create own Peer connection
         peer = new Peer(null);
 
         // On Peer open
         peer.on('open', function (_) {
-            $('#rid').val("");
-            setDisconnected();
-
             // Detect if Peer id is defined
             if (peer.id === null) {
                 console.log('Received null id from Peer connection');
@@ -85,25 +90,29 @@ $(document).ready(function () {
             // Save connection
             conn = c;
 
-            // Change status
-            setConnected();
+            // Change status and set RID
+            setStatus('Connected', 'green');
             $('#rid').val(conn.peer);
 
             // Get connection ready
             ready();
         });
 
+        // Connect via RID
         $('#rid-button').click(function () {
+            // Close current connection
             if (conn) {
                 conn.close();
             }
 
+            // Connect to RID
             conn = peer.connect($('#rid').val(), {
                 reliable: true
             });
 
+            // Set as connected
             if (conn) {
-                setConnected();
+                setStatus('Connected', 'green');
             }
 
             ready();
@@ -112,7 +121,7 @@ $(document).ready(function () {
         // On Peer disconnection
         peer.on('disconnected', function () {
             // Change status
-            setDisconnected();
+            setStatus('Disconnected', 'yellow');
 
             // Attempt to reconnect
             peer.id = lpeer;
@@ -122,19 +131,22 @@ $(document).ready(function () {
         peer.on('close', function () {
             // Prompt refresh
             conn = null;
-            setStatus('Please refresh', 'green-color', 'red-color');
+            setStatus('Client closed (Please refresh)', 'red');
         });
 
         peer.on('error', function (err) {
-            // Show error
             console.log(err);
             alert('' + err);
+
+            // TODO: Handle all errors
+            switch (err.type) {
+                case 'peer-unavailable':
+                    setStatus('Disconnected', 'yellow');
+            }
         });
     }
 
-    /**
-     * Call when Peer connection is established
-     */
+    // Call when Peer connection is established
     function ready() {
         conn.on('data', function (data) {
             switch (data.type) {
@@ -146,10 +158,11 @@ $(document).ready(function () {
 
         conn.on('close', function () {
             conn = null;
-            setStatus('Connection closed', 'green-color', 'red-color');
+            setStatus('Connection closed', 'yellow');
         });
     }
 
+    // Add message to html
     function addMessage(author, msg) {
         let authorSpan = "";
         switch (author) {
@@ -167,6 +180,7 @@ $(document).ready(function () {
         }, 0);
     }
 
+    // Click button from enter key press on text box
     $('#messageText').keypress(function (e) {
         if (e.which === 13) {
             $("#messageSend").click();
