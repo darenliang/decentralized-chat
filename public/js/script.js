@@ -90,10 +90,6 @@ $(document).ready(function () {
             // Save connection
             conn = c;
 
-            // Change status and set RID
-            setStatus('Connected', 'green');
-            $('#rid').val(conn.peer);
-
             // Get connection ready
             ready();
         });
@@ -109,11 +105,6 @@ $(document).ready(function () {
             conn = peer.connect($('#rid').val(), {
                 reliable: true
             });
-
-            // Set as connected
-            if (conn) {
-                setStatus('Connected', 'green');
-            }
 
             ready();
         });
@@ -148,6 +139,12 @@ $(document).ready(function () {
 
     // Call when Peer connection is established
     function ready() {
+        conn.on('open', function () {
+            // Change status and set RID
+            setStatus('Connected', 'green');
+            $('#rid').val(conn.peer);
+        })
+
         conn.on('data', function (data) {
             switch (data.type) {
                 case 'msg':
