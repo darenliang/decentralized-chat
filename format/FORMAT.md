@@ -5,17 +5,26 @@ This markdown file defines how the content is stored locally in the browser. Thi
 ```javascript
 let message = {
     author: string,
-    timestamp: Date(),
+    timestamp: new Date(),
+    unique: Math.random(),
     content: string,
 }
 ```
 
 ```javascript
-// id are generated using Date.now() + Math.random()
-
+// id are generated using Date.getTime() + Math.random()
 let room = {
     1234567890: message,
     2345678901: message,
+    ...
+}
+```
+
+```javascript
+// hashes are determined by hashCode(peer.id + ":" + conn.peer)
+let database = {
+    1234567890: room,
+    2345678901: room,
     ...
 }
 ```
