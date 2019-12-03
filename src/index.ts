@@ -31,8 +31,8 @@ $(document).ready(function () {
     }
 
     // Get timestamp
-    function getTimestamp(ms: number) {
-        function addZero(t: number) {
+    function getTimestamp(ms: number): string {
+        function addZero(t: number): string {
             let res: string = null;
             if (t < 10) {
                 res = '0' + t;
