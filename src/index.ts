@@ -1,15 +1,21 @@
 import Peer from 'peerjs';
 import $ from 'jquery';
 
-function createMessage(author: string, content: string) {
-    return {author: author, timestamp: new Date().getTime(), content: content}
-}
-
 // On document load
 $(document).ready(function () {
     let peer: Peer = null;
     let last_peer: string = null;
     let conn: Peer.DataConnection = null;
+
+    // Create message object
+    function createMessage(content: string): object {
+        return {author: peer.id, timestamp: new Date().getTime(), content: content}
+    }
+
+    // Create room object
+    function createRoom(): object {
+        return {self: peer.id, peer: conn.peer, messages: {}}
+    }
 
     // Set status
     function setStatus(status: string, newColor: string) {
