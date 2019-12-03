@@ -20,8 +20,8 @@ All libraries are hosted on [jsDelivr](https://www.jsdelivr.com)
 - [x] Initial prototype
 - [x] Migrate to TypeScript
 - [ ] Proper error handling
-- [ ] Backup messages to local storage
+- [ ] Backup messages to local storage (Currently work in progress)
 - [ ] Sync messages from local storage
 - [ ] Local storage encryption
-- [ ] Chat rooms
+- [ ] Chat rooms (Currently work in progress)
 - [ ] Simple name server
