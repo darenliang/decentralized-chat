@@ -209,7 +209,7 @@ $(document).ready(function () {
             return;
         }
 
-        let msg: object = createMessage(peer.id, text);
+        let msg: object = createMessage(text);
 
         if (conn.open) {
             conn.send(msg);
