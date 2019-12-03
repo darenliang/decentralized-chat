@@ -1,15 +1,21 @@
 import Peer from 'peerjs';
 import $ from 'jquery';
 
-function createMessage(author: string, content: string) {
-    return {author: author, timestamp: new Date().getTime(), content: content}
-}
-
 // On document load
 $(document).ready(function () {
     let peer: Peer = null;
     let last_peer: string = null;
     let conn: Peer.DataConnection = null;
+
+    // Create message object
+    function createMessage(content: string): object {
+        return {author: peer.id, timestamp: new Date().getTime(), content: content}
+    }
+
+    // Create room object
+    function createRoom(): object {
+        return {self: peer.id, peer: conn.peer, messages: {}}
+    }
 
     // Set status
     function setStatus(status: string, newColor: string) {
@@ -25,8 +31,8 @@ $(document).ready(function () {
     }
 
     // Get timestamp
-    function getTimestamp(ms: number) {
-        function addZero(t: number) {
+    function getTimestamp(ms: number): string {
+        function addZero(t: number): string {
             let res: string = null;
             if (t < 10) {
                 res = '0' + t;
@@ -46,6 +52,8 @@ $(document).ready(function () {
             h_res = (h - 12).toString();
         } else if (h === 0) {
             h_res = (12).toString();
+        } else {
+            h_res = h.toString();
         }
 
         return h_res + ':' + addZero(m) + ':' + addZero(s);
@@ -201,7 +209,7 @@ $(document).ready(function () {
             return;
         }
 
-        let msg: object = createMessage(peer.id, text);
+        let msg: object = createMessage(text);
 
         if (conn.open) {
             conn.send(msg);
