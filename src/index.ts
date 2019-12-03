@@ -1,20 +1,66 @@
 import Peer from 'peerjs';
 import $ from 'jquery';
+import localForage from 'localforage';
+
+const hashCode = (s: string): number => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0);
+
+interface message {
+    author: string;
+    timestamp: number;
+    unique: number;
+    content: string;
+}
+
+interface room {
+    self: string;
+    peer: string;
+    messages: { [index: number]: message };
+}
 
 // On document load
 $(document).ready(function () {
     let peer: Peer = null;
     let last_peer: string = null;
     let conn: Peer.DataConnection = null;
+    let curr_room: room = null;
 
     // Create message object
-    function createMessage(content: string): object {
-        return {author: peer.id, timestamp: new Date().getTime(), content: content}
+    function createMessage(content: string): message {
+        return {author: peer.id, timestamp: new Date().getTime(), unique: Math.random(), content: content}
     }
 
     // Create room object
-    function createRoom(): object {
+    function createRoom(): room {
         return {self: peer.id, peer: conn.peer, messages: {}}
+    }
+
+    // Load room
+    function loadRoom() {
+        localForage.getItem('default-room').then(function (value) {
+            if (value) {
+                curr_room = value as room;
+            } else {
+                updateRoom(createRoom());
+            }
+        }).catch(function (err) {
+            alert(err);
+            console.log(err);
+        });
+    }
+
+    function updateRoom(target_room: room) {
+        localForage.setItem('default-room', target_room).then(function (_) {
+            return;
+        }).catch(function (err) {
+            console.log(err);
+        });
+    }
+
+    // Add message to database
+    function addMessage(msg: message) {
+        const unique_id: number = msg.timestamp + msg.unique;
+        curr_room.messages[unique_id] = msg;
+        updateRoom(curr_room);
     }
 
     // Set status
@@ -139,10 +185,14 @@ $(document).ready(function () {
             // Change status and set RID
             setStatus('Connected', 'green');
             $('#rid').val(conn.peer);
+
+            // Load room
+            loadRoom();
         });
 
-        conn.on('data', function (msg: any) {
+        conn.on('data', function (msg: message) {
             // TODO: Properly handle different types of objects
+            displayMessage(msg);
             addMessage(msg);
         });
 
@@ -153,7 +203,7 @@ $(document).ready(function () {
     }
 
     // Add message to html
-    function addMessage(msg: any) {
+    function displayMessage(msg: message) {
         let authorSpan = "";
         switch (msg.author) {
             case peer.id:
@@ -209,10 +259,11 @@ $(document).ready(function () {
             return;
         }
 
-        let msg: object = createMessage(text);
+        let msg: message = createMessage(text);
 
         if (conn.open) {
             conn.send(msg);
+            displayMessage(msg);
             addMessage(msg);
         }
 
