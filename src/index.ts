@@ -2,8 +2,10 @@ import Peer from 'peerjs';
 import $ from 'jquery';
 import localForage from 'localforage';
 
+// Create simple hash from string
 const hashCode = (s: string): number => s.split('').reduce((a, b) => (((a << 5) - a) + b.charCodeAt(0)) | 0, 0);
 
+// Object definition for message
 interface message {
     author: string;
     timestamp: number;
@@ -11,6 +13,7 @@ interface message {
     content: string;
 }
 
+// Object definition for room
 interface room {
     self: string;
     peer: string;
