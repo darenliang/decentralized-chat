@@ -52,6 +52,8 @@ $(document).ready(function () {
             h_res = (h - 12).toString();
         } else if (h === 0) {
             h_res = (12).toString();
+        } else {
+            h_res = h.toString();
         }
 
         return h_res + ':' + addZero(m) + ':' + addZero(s);
