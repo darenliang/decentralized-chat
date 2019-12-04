@@ -51,6 +51,7 @@ $(document).ready(function () {
         });
     }
 
+    // Update room data
     function updateRoom(target_room: room) {
         localForage.setItem('default-room', target_room).then(function (_) {
             return;
@@ -163,12 +164,14 @@ $(document).ready(function () {
             peer.reconnect();
         });
 
+        // On Peer close
         peer.on('close', function () {
             // Prompt refresh
             conn = null;
             setStatus('Client closed (Please refresh)', 'red');
         });
 
+        // On Peer error
         peer.on('error', function (err: any) {
             console.log(err);
             alert('' + err);
@@ -184,6 +187,7 @@ $(document).ready(function () {
 
     // Call when Peer connection is established
     function ready() {
+        // On connection open
         conn.on('open', function () {
             // Change status and set RID
             setStatus('Connected', 'green');
@@ -193,12 +197,14 @@ $(document).ready(function () {
             loadRoom();
         });
 
+        // On connection data input
         conn.on('data', function (msg: message) {
             // TODO: Properly handle different types of objects
             displayMessage(msg);
             addMessage(msg);
         });
 
+        // On connection close
         conn.on('close', function () {
             conn = null;
             setStatus('Connection closed', 'yellow');
