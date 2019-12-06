@@ -27,7 +27,7 @@
             </div>
             <input id="uid" type="text" class="form-control" placeholder="Please wait" readonly>
             <div class="input-group-append">
-                <button id="reconnectButton" type="button" class="btn btn-outline-secondary">Refresh</button>
+                <button id="reconnectButton" type="button" class="btn btn-outline-secondary">New</button>
             </div>
         </div>
         <br>
@@ -53,6 +53,9 @@
     <div class="row">
         <div class="mx-auto col-md-8">
             <div class="input-group col-auto">
+                <div class="input-group-prepend">
+                    <button id="messageRefresh" type="button" class="btn btn-outline-secondary">Refresh</button>
+                </div>
                 <input id="messageText" type="text" class="form-control">
                 <div class="input-group-append">
                     <button id="messageSend" type="button" class="btn btn-outline-secondary">Send</button>
