@@ -43,7 +43,8 @@ $(document).ready(function () {
             if (value) {
                 curr_room = value as room;
             } else {
-                updateRoom(createRoom());
+                curr_room = createRoom();
+                updateRoom(curr_room);
             }
         }).catch(function (err) {
             alert(err);
