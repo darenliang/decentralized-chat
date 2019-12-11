@@ -14,6 +14,20 @@ Currently, it uses the following libraries:
 
 All libraries are hosted on [jsDelivr](https://www.jsdelivr.com)
 
+## Installation
+
+To install the necessary node packages, run:
+
+```
+npm install
+```
+
+To build the js bundle, run:
+
+```
+npm run build
+```
+
 ## Todo
 
 - [x] Draft UI
