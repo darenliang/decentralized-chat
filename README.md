@@ -12,8 +12,6 @@ Currently, it uses the following libraries:
 - [Font Awesome](https://fontawesome.com)
 - [jQuery](https://jquery.com)
 
-All libraries are hosted on [jsDelivr](https://www.jsdelivr.com)
-
 ## Installation
 
 To install the necessary node packages, run:
