@@ -6,7 +6,7 @@ Work in progress. Purely static web app, for P2P communication.
 
 Currently, it uses the following libraries:
 
-- [PeerJS](https://peerjs.com) (WebRTC wrapper)
+- [PeerJS](https://peerjs.com)
 - [localForage](https://localforage.github.io/localForage/)
 - [Bootstrap](https://getbootstrap.com)
 - [Font Awesome](https://fontawesome.com)
