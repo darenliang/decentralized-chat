@@ -1,6 +1,6 @@
 # Decentralized Web Chat
 
-Work in progress. Purely static web app, for P2P communication.
+Work in progress.
 
 [Limited functionality demo](https://darenliang.github.io/decentralized-chat/dist/index)
 
