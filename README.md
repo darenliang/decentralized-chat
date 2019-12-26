@@ -2,6 +2,8 @@
 
 Work in progress.
 
+Note: Decentralized Web Chat only works on WebRTC enabled browsers
+
 [Limited functionality demo](https://darenliang.github.io/decentralized-chat/dist/index)
 
 Currently, it uses the following libraries:
