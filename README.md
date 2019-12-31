@@ -33,6 +33,7 @@ npm run build
 - [x] Draft UI
 - [x] Initial prototype
 - [x] Migrate to TypeScript
+- [ ] Use React
 - [ ] Proper error handling
 - [ ] Backup messages to local storage
 - [ ] Sync messages from local storage
