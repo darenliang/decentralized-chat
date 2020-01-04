@@ -16,17 +16,19 @@ Currently, it uses the following libraries:
 
 ## Installation
 
-To install the necessary node packages, run:
+To install the necessary node packages:
 
 ```
 npm install
 ```
 
-To build the js bundle, run:
+To build the js bundle:
 
 ```
 npm run build
 ```
+
+Compiled files are found in the `dist` folder.
 
 ## Todo
 
