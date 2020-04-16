@@ -1,70 +1,76 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Decentralized Chat</title>
+    <title>Decentralized Chat | BATCH = D5</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/css/all.min.css">
     <link rel="stylesheet" href="css/style.css">
+    <link href="https://img.icons8.com/color/48/000000/messaging-.png" rel="icon" type="image/x-icon" />
 </head>
+
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand">Decentralized Chat</a>
-    <a class="nav-link"><span id="status">Disconnected</span>&nbsp<i id="status-icon"
-                                                                     class="fas fa-circle fa-xs yellow-color"></i></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand">Decentralized Chat</a>
+        <a class="nav-link"><span id="status" style="color:white">Disconnected</span>&nbsp<i id="status-icon"
+                class="fas fa-circle fa-xs yellow-color"></i></a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
             aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-        </ul>
-        <br>
-        <div class="input-group col-lg-4">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Client ID:</span>
-            </div>
-            <input id="uid" type="text" class="form-control" placeholder="Please wait" readonly>
-            <div class="input-group-append">
-                <button id="reconnectButton" type="button" class="btn btn-outline-secondary">Refresh</button>
-            </div>
-        </div>
-        <br>
-        <div class="input-group col-lg-4">
-            <div class="input-group-prepend">
-                <span class="input-group-text">Peer ID:</span>
-            </div>
-            <input id="rid" type="text" class="form-control">
-            <div class="input-group-append">
-                <button id="rid-button" type="button" class="btn btn-outline-secondary">Connect</button>
-            </div>
-        </div>
-        <br>
-    </div>
-</nav>
-<div class="container">
-    <div class="col-xs-12" style="height:50px;"></div>
-    <div id="messageContainer" class="row messageBox">
-        <div id="messageBox" class="mx-auto col-md-8">
-        </div>
-    </div>
-    <div class="col-xs-12" style="height:50px;"></div>
-    <div class="row">
-        <div class="mx-auto col-md-8">
-            <div class="input-group col-auto">
-                <input id="messageText" type="text" class="form-control">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            </ul>
+            <br>
+            <div class="input-group col-lg-5">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Your ID:</span>
+                </div>
+                <input id="uid" type="text" class="form-control" placeholder="Please wait" readonly>
                 <div class="input-group-append">
-                    <button id="messageSend" type="button" class="btn btn-outline-secondary">Send</button>
+                    <button id="reconnectButton" type="button" class="btn btn-warning">Refresh</button>
+                </div>
+            </div>
+            <br>
+            <div class="input-group col-lg-5">
+                <div class="input-group-prepend">
+                    <span class="input-group-text">Peer ID:</span>
+                </div>
+                <input id="rid" type="text" class="form-control">
+                <div class="input-group-append">
+                    <button id="rid-button" type="button" class="btn btn-success">Connect</button>
+                </div>
+            </div>
+            <br>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="col-xs-12" style="height:50px;"></div>
+        <div id="messageContainer" class="row messageBox">
+            <div id="messageBox" class="mx-auto col-md-8">
+            </div>
+        </div>
+        <div class="col-xs-12" style="height:50px;"></div>
+        <div class="row">
+            <div class="mx-auto col-md-8">
+                <div class="input-group col-auto">
+                    <input id="messageText" type="text" class="form-control">
+                    <div class="input-group-append">
+                        <button id="messageSend" type="button" class="btn btn-primary"><i
+                                class="fas fa-paper-plane"></i>
+                            Send</button>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/js/fontawesome.min.js"></script>
-<script src="bundle.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.4.1/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.11.2/js/fontawesome.min.js"></script>
+    <script src="bundle.js"></script>
 </body>
+
 </html>
