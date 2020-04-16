@@ -1,20 +1,20 @@
 .messageBox {
-    height: 400px;
-    overflow: auto;
+  height: 333px;
+  overflow: auto;
 }
 
 .blue-color {
-    color: blue;
+  color: blue;
 }
 
 .red-color {
-    color: red;
+  color: red;
 }
 
 .green-color {
-    color: green;
+  color: green;
 }
 
 .yellow-color {
-    color: yellow;
+  color: yellow;
 }
