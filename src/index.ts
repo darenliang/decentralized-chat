@@ -9,12 +9,12 @@ $(document).ready(function () {
 
     // Create message object
     function createMessage(content: string): object {
-        return {author: peer.id, timestamp: new Date().getTime(), content: content}
+        return {author: peer.id, timestamp: new Date().getTime(), content: content};
     }
 
     // Create room object
     function createRoom(): object {
-        return {self: peer.id, peer: conn.peer, messages: {}}
+        return {self: peer.id, peer: conn.peer, messages: {}};
     }
 
     // Set status
@@ -23,9 +23,9 @@ $(document).ready(function () {
         const colors = ['green', 'yellow', 'red'];
         colors.forEach(function (item) {
             if (newColor === item) {
-                $('#status-icon').addClass(item + '-color')
+                $('#status-icon').addClass(item + '-color');
             } else {
-                $('#status-icon').removeClass(item + '-color')
+                $('#status-icon').removeClass(item + '-color');
             }
         });
     }
@@ -33,7 +33,7 @@ $(document).ready(function () {
     // Get timestamp
     function getTimestamp(ms: number): string {
         function addZero(t: number): string {
-            let res: string = null;
+            let res: string;
             if (t < 10) {
                 res = '0' + t;
             } else {
@@ -47,7 +47,7 @@ $(document).ready(function () {
         const m: number = parsed_date.getMinutes();
         const s: number = parsed_date.getSeconds();
 
-        let h_res: string = null;
+        let h_res: string;
         if (h > 12) {
             h_res = (h - 12).toString();
         } else if (h === 0) {
@@ -61,14 +61,28 @@ $(document).ready(function () {
 
     // Reconnect button
     $('#reconnectButton').click(function () {
-        initialize()
+        initialize();
     });
 
 
     // Setup Peer connection
     function initialize() {
         // Create own Peer connection
-        peer = new Peer(null);
+        const Config = {
+            config: {
+                'iceServers': [
+                    {url: 'stun:stun1.l.google.com:19302'},
+                    {
+                        url: 'turn:numb.viagenie.ca',
+                        credential: 'muazkh',
+                        username: 'webrtc@live.com'
+                    }
+                ]
+            }
+        };
+
+        // @ts-ignore
+        peer = new Peer(Config);
 
         // On Peer open
         peer.on('open', function (_: string) {
@@ -154,7 +168,7 @@ $(document).ready(function () {
 
     // Add message to html
     function addMessage(msg: any) {
-        let authorSpan = "";
+        let authorSpan: string;
         switch (msg.author) {
             case peer.id:
                 authorSpan = '<span class=\"red-color\"> - ' + msg.author + ' : </span>';
@@ -166,14 +180,14 @@ $(document).ready(function () {
 
         $('#messageBox').append('<p><span class=\"blue-color\">' + getTimestamp(msg.timestamp) + '</span>' + authorSpan + '<span>' + msg.content + '</span></p>');
         $('#messageContainer').animate({
-            scrollTop: $('#messageContainer').prop("scrollHeight")
+            scrollTop: $('#messageContainer').prop('scrollHeight')
         }, 0);
     }
 
     // Click button from enter key press on text box
     $('#rid').keypress(function (e) {
         if (e.which === 13) {
-            $("#rid-button").click();
+            $('#rid-button').click();
             return false;
         }
     });
@@ -197,7 +211,7 @@ $(document).ready(function () {
     // Click button from enter key press on text box
     $('#messageText').keypress(function (e) {
         if (e.which === 13) {
-            $("#messageSend").click();
+            $('#messageSend').click();
             return false;
         }
     });
@@ -205,7 +219,7 @@ $(document).ready(function () {
     // Send message
     $('#messageSend').click(function () {
         const text = $('#messageText').val().toString();
-        if (text === "") {
+        if (text === '') {
             return;
         }
 
@@ -216,7 +230,7 @@ $(document).ready(function () {
             addMessage(msg);
         }
 
-        $('#messageText').val("");
+        $('#messageText').val('');
     });
 
     initialize();
