@@ -68,21 +68,7 @@ $(document).ready(function () {
     // Setup Peer connection
     function initialize() {
         // Create own Peer connection
-        const Config = {
-            config: {
-                'iceServers': [
-                    {url: 'stun:stun1.l.google.com:19302'},
-                    {
-                        url: 'turn:numb.viagenie.ca',
-                        credential: 'muazkh',
-                        username: 'webrtc@live.com'
-                    }
-                ]
-            }
-        };
-
-        // @ts-ignore
-        peer = new Peer(Config);
+        peer = new Peer();
 
         // On Peer open
         peer.on('open', function (_: string) {
